@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "CLI tool to update a package lock file",
   "main": "index.js",
+  "bin": "index.js",
   "dependencies": {},
   "devDependencies": {},
   "repository": {
