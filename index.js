@@ -24,8 +24,6 @@ const upd = combined.split('\n')
   .concat('package-lock=true')
   .join('\n')
 
-console.log(upd)
-
 fs.writeFileSync('.npmrc', upd)
 
 try {
