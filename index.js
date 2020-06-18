@@ -8,7 +8,18 @@ const { spawnSync } = require('child_process')
 const npmrc = path.join(os.homedir(), '.npmrc')
 const npm = fs.readFileSync(npmrc, 'utf-8')
 
-const upd = npm.split('\n')
+let localnpmrc = ''
+let hasLocalNpmrc = false
+try {
+  localnpmrc = fs.readFileSync('.npmrc', 'utf-8')
+  hasLocalNpmrc = true
+} catch (e) {
+  // nothing
+}
+
+const combined = [npm, localnpmrc].join('\n')
+
+const upd = combined.split('\n')
   .filter(l => l.indexOf('package-lock') === -1)
   .concat('package-lock=true')
   .join('\n')
@@ -21,4 +32,9 @@ try {
   console.error(err.message)
 }
 
-fs.unlinkSync('.npmrc')
+if (hasLocalNpmrc) {
+  fs.writeFileSync('.npmrc', localnpmrc)
+} else {
+  fs.unlinkSync('.npmrc')
+}
+
